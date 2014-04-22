@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+    title Coah2
+    link(rel='stylesheet', href='/css/app.css')
+
+  body
+    h1 Coah2
+
+    if process.env.NODE_ENV == 'production'
+      script(src='/js/app.js')
+    else
+      script(data-main='/js/config.js', src='/js/require.js')
