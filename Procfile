@@ -1,2 +1,2 @@
-web: cd ../../ && make start-dev
-build: cd ../../ && make build-dev
+web: make start-dev
+build: make build-dev
