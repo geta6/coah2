@@ -55,8 +55,3 @@ memo: SIGWINCH triggerd on resize terminal window.
 
     bundle exec mina process:{build,test,start,stop,restart,reload}
 
-## Client Script Architecture
-
-* build with `GRUNT_ENV=development`, load all components asynchronous with require.js.
-* build with `GRUNT_ENV=production`, pre-process to concatenated/minified script with r.js + uglify2.
-
