@@ -5,7 +5,10 @@ html
     link(rel='stylesheet', href='/css/app.css')
 
   body
-    h1 Coah2
+    #main
+
+    script#template_main(type='text/template')
+      h1 Coah2
 
     if process.env.NODE_ENV == 'production'
       script(src='/js/app.js')

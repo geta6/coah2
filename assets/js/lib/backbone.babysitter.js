@@ -1,1 +1,1 @@
-../../../vendor/bower/backbone.babysitter/lib/amd/backbone.babysitter.js
+../../../vendor/bower/backbone.babysitter/lib/backbone.babysitter.js

@@ -31,10 +31,10 @@ reload:
 restart: quit start
 
 build:
-	@GRUNT_ENV=production  $(GRUNT)
+	@$(GRUNT) production
 
 build-dev:
-	@GRUNT_ENV=development $(GRUNT)
+	@$(GRUNT) development
 
 test:
 	@./node_modules/.bin/mocha \
@@ -44,9 +44,18 @@ test:
 		$(MOCHA_OPTS)
 
 setup:
+	@echo "\n===> bundle install\n"
 	@bundle install --path=vendor/bundle && bundle update && bundle clean
-	@npm install && npm prune && npm dedupe
-	@$(BOWER) install && $(BOWER) prune
+	@echo "\n===> npm install\n"
+	@npm install && npm prune
+	@echo "\n===> npm prune\n"
+	@npm prune
+	@echo "\n===> npm dedupe\n"
+	@npm dedupe
+	@echo "\n===> bower install\n"
+	@$(BOWER) install
+	@echo "\n===> bower prune\n"
+	@$(BOWER) prune
 
 .PHONY: debug start start-dev quit stop reload restart build build-dev test setup
 
