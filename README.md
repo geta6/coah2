@@ -2,6 +2,13 @@
 
   node template v4
 
+## Setup
+
+```sh
+make setup
+make
+```
+
 ## Components
 
 system         | component
