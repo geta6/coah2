@@ -63,7 +63,7 @@ if (cluster.isMaster) {
     workers[worker.id] = worker;
   });
 
-  for (var i = 0, c = require('os').cpus().length; i < c; i++) {
+  for (var i = 0, c = parseInt(process.env.NODE_CLUSTER, 10) || require('os').cpus().length; i < c; i++) {
     worker = cluster.fork(env);
     workers[worker.id] = worker;
   }

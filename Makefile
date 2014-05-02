@@ -1,5 +1,6 @@
 PID = tmp/.pid
 PORT = 3000
+CLUSTER = auto
 
 NODE = node
 GRUNT = ./node_modules/.bin/grunt
@@ -14,10 +15,10 @@ debug:
 	@$(FOREMAN) start -p $(PORT) -f Procfile
 
 start:
-	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_ENV=production  $(NODE) ./bin/www
+	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_CLUSTER=$(CLUSTER) NODE_ENV=production  $(NODE) ./bin/www
 
 start-dev:
-	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_ENV=development $(NODE) ./bin/www
+	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_CLUSTER=$(CLUSTER) NODE_ENV=development $(NODE) ./bin/www
 
 quit:
 	@[[ -f $(PID) ]] && kill -s QUIT `cat $(PID)` && sleep 1

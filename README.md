@@ -16,7 +16,7 @@ task manage    | make
 deploy tool    | mina
 debug env      | foreman
 
-## Tasks
+## Make Tasks
 
 task name   | details
 ------------|---------
@@ -29,6 +29,7 @@ reload      | restart all workers with interval, a.k.a. graceful reload.
 restart     | restart master process for reload binary, has downtime.
 build       | build one time for production with grunt.
 build-dev   | build continuous for development with grunt.
+test        | run test
 setup       | setup modules (gem, npm, bower).
 
 memo: cannot reload binary on the fly.
