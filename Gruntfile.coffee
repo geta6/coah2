@@ -69,7 +69,20 @@ module.exports = (grunt) ->
           ext: '.css'
         }]
 
-    # script
+    coffee:
+      options:
+        sourceMap: not production
+      release:
+        files: [{
+          expand: yes
+          cwd: 'assets'
+          src: [ '*.coffee', '**/*.coffee' ]
+          dest: 'public'
+          filter: 'isFile'
+          ext: '.js'
+        }]
+
+    # lint
 
     coffeelint:
       options:
@@ -111,19 +124,6 @@ module.exports = (grunt) ->
           filter: 'isFile'
         }]
 
-    coffee:
-      options:
-        sourceMap: yes
-      release:
-        files: [{
-          expand: yes
-          cwd: 'assets'
-          src: [ '*.coffee', '**/*.coffee' ]
-          dest: 'public'
-          filter: 'isFile'
-          ext: '.js'
-        }]
-
     # minifier
 
     requirejs:
@@ -137,7 +137,7 @@ module.exports = (grunt) ->
           wrap: yes
           name: '../lib/almond'
           skipModuleInsertion: no
-          generateSourceMaps: yes
+          generateSourceMaps: not production
           preserveLicenseComments: no
 
     # continuous

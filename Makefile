@@ -36,6 +36,7 @@ build:
 	@$(GRUNT)
 
 test:
+	@$(BOWER) install && $(BOWER) prune
 	@NODE_ENV=production $(GRUNT)
 	@NODE_ENV=production NODE_LOG=off $(MOCHA) \
 		--compilers coffee:coffee-script/register \
