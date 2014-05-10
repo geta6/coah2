@@ -5,8 +5,12 @@ path = require 'path'
 assert = require 'assert'
 request = require 'supertest'
 
-app = require path.resolve 'config', 'app'
 process.env.NODE_ENV = 'test'
+
+if fs.existsSync env = path.resolve 'config', 'env.json'
+  process.env[k] = v for k, v of require env
+
+app = require path.resolve 'config', 'app'
 
 describe 'app', ->
 
