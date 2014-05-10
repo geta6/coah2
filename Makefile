@@ -36,7 +36,8 @@ build:
 	@$(GRUNT)
 
 test:
-	@./node_modules/.bin/mocha \
+	@NODE_ENV=production $(GRUNT)
+	@NODE_ENV=production NODE_LOG=off $(MOCHA) \
 		--compilers coffee:coffee-script/register \
 		--reporter $(REPORTER) \
 		--recursive test \

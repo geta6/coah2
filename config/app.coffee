@@ -20,7 +20,7 @@ app.set 'events', direquire path.resolve 'events'
 app.set 'views', path.resolve 'views'
 app.set 'view engine', 'jade'
 app.use (require 'serve-favicon')(path.resolve 'assets', 'favicon.ico')
-app.use (require 'morgan')('dev') if 'test' isnt process.env.NODE_ENV
+app.use (require 'morgan')('dev') if 'off' isnt process.env.NODE_LOG
 app.use express.static path.resolve 'public'
 app.use (require 'body-parser')()
 app.use (require 'method-override')()

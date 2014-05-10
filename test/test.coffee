@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'test'
-
 fs = require 'fs'
 path = require 'path'
 assert = require 'assert'
