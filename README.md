@@ -1,6 +1,6 @@
 # Coah2
 
-  node template v4
+  [![Build Status](https://travis-ci.org/geta6/coah2.svg?branch=master)](https://travis-ci.org/geta6/coah2)
 
 ## Setup
 
