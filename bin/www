@@ -107,15 +107,13 @@ if (cluster.isMaster) {
 
 } else {
 
-  console.log('cluster.worker.id: ' + cluster.worker.id);
-
   process.title = pkg.name + ':worker:' + cluster.worker.id;
 
   var app = require(path.resolve('config', 'app'));
   app.set('port', process.env.PORT || 3000);
 
   var server = app.listen(app.get('port'), function() {
-    console.log('Listening on port ' + server.address().port);
+    console.log(process.title + ' listening on port ' + server.address().port + ' with ' + process.env.NODE_ENV);
   });
 
 }

@@ -1,2 +1,2 @@
-web: make start-dev
-build: make build-dev
+web: make start
+build: make build

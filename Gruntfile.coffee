@@ -1,17 +1,13 @@
 'use strict'
 
-jitgrunt = require 'jit-grunt'
+jit = require 'jit-grunt'
 coffeelint = require 'coffeelint'
 {reporter} = require 'coffeelint-stylish'
 
 module.exports = (grunt) ->
 
-  jitgrunt grunt
+  jit grunt
 
-  grunt.registerTask 'static', [ 'copy', 'stylus', 'jade' ]
-  grunt.registerTask 'script', [ 'coffeelint', 'coffee', 'requirejs' ]
-  grunt.registerTask 'production', [ 'static', 'script' ]
-  grunt.registerTask 'development', [ 'static', 'script', 'watch' ]
   grunt.registerMultiTask 'coffeelint', 'CoffeeLint', ->
     count = e: 0, w: 0
     options = @options()
@@ -33,18 +29,29 @@ module.exports = (grunt) ->
     if !count.w and !count.e
       grunt.log.ok "#{files.length} file#{if 1 < files.length then 's'} lint free."
 
+  grunt.registerTask 'build', [
+    'clean', 'copy', 'stylus', 'coffeelint', 'coffee'
+  ]
+
+  if production = process.env.NODE_ENV is 'production'
+    grunt.registerTask 'default', [ 'build', 'requirejs' ]
+  else
+    grunt.registerTask 'default', [ 'build', 'watch' ]
+
   grunt.initConfig
 
     pkg: grunt.file.readJSON 'package.json'
 
     # static
 
+    clean: [ 'public' ]
+
     copy:
       release:
         files: [{
           expand: yes
           cwd: 'assets'
-          src: [ '**/*', '!**/*.{coffee,styl,jade}' ]
+          src: [ '**/*', '!**/*.{coffee,styl}' ]
           dest: 'public'
           filter: 'isFile'
         }]
@@ -58,20 +65,8 @@ module.exports = (grunt) ->
           cwd: 'assets'
           src: [ 'css/app.styl' ]
           dest: 'public'
+          filter: 'isFile'
           ext: '.css'
-        }]
-
-    jade:
-      options:
-        data:
-          version: '<%= pkg.version %>'
-      release:
-        files: [{
-          expand: yes
-          cwd: 'assets'
-          src: [ 'index.jade' ]
-          dest: 'public'
-          ext: '.html'
         }]
 
     # script
@@ -112,8 +107,8 @@ module.exports = (grunt) ->
       assets:
         files: [{
           expand: yes
-          cwd: 'assets'
-          src: [ '**/*.coffee' ]
+          src: [ '{assets,config,events,helper,models}/**/*.coffee' ]
+          filter: 'isFile'
         }]
 
     coffee:
@@ -125,6 +120,7 @@ module.exports = (grunt) ->
           cwd: 'assets'
           src: [ '*.coffee', '**/*.coffee' ]
           dest: 'public'
+          filter: 'isFile'
           ext: '.js'
         }]
 
@@ -151,15 +147,12 @@ module.exports = (grunt) ->
         livereload: yes
         interrupt: yes
       static:
-        tasks: [ 'copy' ]
-        files: [ 'assets/**/*', '!assets/**/*.{coffee,styl,jade}' ]
+        tasks: [ 'clean', 'copy' ]
+        files: [ 'assets/**/*', '!assets/**/*.{coffee,styl}' ]
       coffee:
-        tasks: [ 'coffeelint', 'coffee', 'requirejs' ]
+        tasks: [ 'coffeelint', 'coffee' ].concat if production then ['requirejs'] else []
         files: [ 'assets/**/*.coffee' ]
       stylus:
         tasks: [ 'stylus' ]
         files: [ 'assets/**/*.styl' ]
-      jade:
-        tasks: [ 'jade' ]
-        files: [ 'assets/**/*.jade' ]
 

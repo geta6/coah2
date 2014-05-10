@@ -11,14 +11,15 @@ FOREMAN = bundle exec foreman
 REPORTER = dot
 MOCHA_OPTS = --colors --growl --bail --check-leaks
 
-debug:
-	@$(FOREMAN) start -p $(PORT) -f Procfile
+development:
+	@NODE_ENV=development $(FOREMAN) start
+
+production:
+	@NODE_ENV=production $(GRUNT)
+	@NODE_ENV=production $(FOREMAN) start web
 
 start:
-	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_CLUSTER=$(CLUSTER) NODE_ENV=production  $(NODE) ./bin/www
-
-start-dev:
-	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_CLUSTER=$(CLUSTER) NODE_ENV=development $(NODE) ./bin/www
+	@[[ ! -f $(PID) ]] && NODE_PID=$(PID) NODE_CLUSTER=$(CLUSTER) $(NODE) ./bin/www
 
 quit:
 	@[[ -f $(PID) ]] && kill -s QUIT `cat $(PID)` && sleep 1
@@ -32,10 +33,7 @@ reload:
 restart: quit start
 
 build:
-	@$(GRUNT) production
-
-build-dev:
-	@$(GRUNT) development
+	@$(GRUNT)
 
 test:
 	@./node_modules/.bin/mocha \
@@ -49,14 +47,8 @@ setup:
 	@bundle install --path=vendor/bundle && bundle update && bundle clean
 	@echo "\n===> npm install\n"
 	@npm install && npm prune
-	@echo "\n===> npm prune\n"
-	@npm prune
-	@echo "\n===> npm dedupe\n"
-	@npm dedupe
 	@echo "\n===> bower install\n"
-	@$(BOWER) install
-	@echo "\n===> bower prune\n"
-	@$(BOWER) prune
+	@$(BOWER) install && $(BOWER) prune
 
-.PHONY: debug start start-dev quit stop reload restart build build-dev test setup
+.PHONY: development production start quit stop reload restart build test setup
 
