@@ -1,14 +1,19 @@
-# Dependencies
+process.env.NODE_ENV = 'test'
 
 fs = require 'fs'
 path = require 'path'
 assert = require 'assert'
 request = require 'supertest'
 
-process.env.NODE_ENV = 'test'
+envs = [
+  (path.resolve 'config', 'env.json')
+  (path.resolve 'config', 'env.json.sample')
+]
 
-if fs.existsSync env = path.resolve 'config', 'env.json'
-  process.env[k] = v for k, v of require env
+for env in envs when fs.existsSync env
+  env = JSON.parse fs.readFileSync env, 'utf-8'
+  process.env[k] = v for k, v of env
+  break
 
 app = require path.resolve 'config', 'app'
 
