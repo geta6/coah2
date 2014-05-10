@@ -146,12 +146,16 @@ module.exports = (grunt) ->
       options:
         livereload: yes
         interrupt: yes
+        spawn: no
       static:
         tasks: [ 'clean', 'copy' ]
         files: [ 'assets/**/*', '!assets/**/*.{coffee,styl}' ]
-      coffee:
+      client:
         tasks: [ 'coffeelint', 'coffee' ].concat if production then ['requirejs'] else []
         files: [ 'assets/**/*.coffee' ]
+      server:
+        tasks: [ 'coffeelint' ]
+        files: [ '{config,events,helper,models}/**/*.coffee' ]
       stylus:
         tasks: [ 'stylus' ]
         files: [ 'assets/**/*.styl' ]

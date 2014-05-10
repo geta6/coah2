@@ -26,8 +26,7 @@ app.use (require 'body-parser')()
 app.use (require 'method-override')()
 app.use (require 'cookie-parser')()
 app.use session
-  store: new RedisStore
-    prefix: "sess:#{pkg.name}"
+  store: new RedisStore prefix: "sess:#{pkg.name}"
   secret: process.env.SESSION_SECRET
   cookie: expires: no
 app.use passport.initialize()
