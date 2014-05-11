@@ -8,7 +8,9 @@ html
     #main
 
     script#template_main(type='text/template')
-      h1 Coah2
+      h1 <%- title %>
+      p <%- content %>
+      input(value!='<%- content %>')
 
     if process.env.NODE_ENV == 'production'
       script(src='/js/app.js')
